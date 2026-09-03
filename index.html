@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Result Management System</title>
+    
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #311042 100%);
+            min-height: 100vh;
+            color: #f1f5f9;
+            padding: 30px 5%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* Glassmorphism Card Box Styling */
+        .card {
+            background: rgba(30, 27, 75, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            padding: 40px;
+            border-radius: 20px;
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            width: 100%;
+        }
+
+        .center-card {
+            max-width: 440px;
+            text-align: center;
+        }
+
+        /* Badge and Title Styling */
+        .brand-badge {
+            display: inline-block;
+            padding: 6px 16px;
+            background: linear-gradient(90deg, #6366f1, #a855f7);
+            color: #ffffff;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            margin-bottom: 18px;
+            text-transform: uppercase;
+            box-shadow: 0 4px 15px rgba(168, 85, 247, 0.4);
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            color: #ffffff;
+            font-weight: 800;
+            margin-bottom: 6px;
+            letter-spacing: 0.5px;
+        }
+
+        .subtitle {
+            color: #94a3b8;
+            margin-bottom: 25px;
+            font-size: 0.95rem;
+        }
+
+        .gradient-title {
+            background: linear-gradient(90deg, #38bdf8, #818cf8, #c084fc);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+
+        /* Input Fields Box Styling */
+        .input-group, .form-group {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        label {
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #cbd5e1;
+            font-size: 0.9rem;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px 16px;
+            background: rgba(15, 23, 42, 0.8);
+            border: 1.5px solid rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+            color: #ffffff;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        input::placeholder {
+            color: #64748b;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #38bdf8;
+            box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.25);
+            background: rgba(15, 23, 42, 0.95);
+        }
+
+        /* Color Buttons */
+        .btn {
+            width: 100%;
+            padding: 14px 24px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: linear-gradient(135deg, #10b981 0%, #047857 100%);
+            color: #ffffff;
+            box-shadow: 0 4px 20px rgba(16, 185, 129, 0.4);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.6);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);
+        }
+
+        .error-msg {
+            color: #f87171;
+            margin-top: 15px;
+            font-weight: 600;
+        }
+
+        /* Dashboard UI */
+        #dashboard-container {
+            width: 100%;
+            max-width: 1100px;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .action-bar {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+            background: rgba(15, 23, 42, 0.6);
+            padding: 10px;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            flex-wrap: wrap;
+        }
+
+        .nav-btn {
+            flex: 1;
+            min-width: 130px;
+            padding: 12px 16px;
+            background: transparent;
+            border: none;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #94a3b8;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .nav-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+        }
+
+        .nav-btn.active {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: #ffffff;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+        }
+
+        /* Form Grids */
+        .marks-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .form-grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        /* Table Design */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 14px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        th {
+            background: rgba(15, 23, 42, 0.9);
+            color: #38bdf8;
+        }
+
+        .badge-pass {
+            background: rgba(16, 185, 129, 0.2);
+            color: #34d399;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-weight: bold;
+        }
+
+        .badge-fail {
+            background: rgba(239, 68, 68, 0.2);
+            color: #f87171;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-weight: bold;
+        }
+
+        .search-box {
+            display: flex;
+            gap: 10px;
+            max-width: 400px;
+            margin-bottom: 20px;
+        }
+
+        .transcript {
+            background: rgba(15, 23, 42, 0.9);
+            border: 1.5px solid #a855f7;
+            padding: 25px;
+            border-radius: 16px;
+            max-width: 480px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Dynamic Glassmorphism Login Container -->
+    <div id="login-container" class="card center-card">
+        <div class="brand-badge">🎓 Portal Access</div>
+        <h2>ACADEMIC MANAGEMENT</h2>
+        <p class="subtitle">Faculty Login Portal</p>
+        <form id="login-form">
+            <div class="input-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" placeholder="Enter username" required>
+            </div>
+            <div class="input-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="Enter password" required>
+            </div>
+            <button type="submit" class="btn">Login to Dashboard</button>
+            <p id="login-error" class="error-msg"></p>
+        </form>
+    </div>
+
+    <!-- Main Dashboard -->
+    <div id="dashboard-container" class="hidden">
+        <header>
+            <div>
+                <h1>Student Result Management System</h1>
+            </div>
+            <button id="logout-btn" class="btn-danger">Logout</button>
+        </header>
+
+        <!-- Navigation Tabs -->
+        <nav class="action-bar">
+            <button class="nav-btn active" onclick="showSection('add-section', this)"> Add Student</button>
+            <button class="nav-btn" onclick="showSection('view-section', this)">View Records</button>
+            <button class="nav-btn" onclick="showSection('search-section', this)"> Search Student</button>
+            <button class="nav-btn" onclick="showSection('update-section', this)"> Update Marks</button>
+            <button class="nav-btn" onclick="showSection('result-section', this)"> Result Card</button>
+            <button class="nav-btn" onclick="showSection('stats-section', this)"> Class Analytics</button>
+        </nav>
+
+        <div class="content-area">
+            
+            <!-- 1. Add Student -->
+            <section id="add-section" class="card dashboard-section">
+                <h3 class="gradient-title">1. Enroll New Student</h3>
+                <form id="add-student-form">
+                    <div class="form-grid-2">
+                        <div class="form-group">
+                            <label>Roll Number:</label>
+                            <input type="text" id="add-roll" placeholder="Digits only (e.g., 101)" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Full Name:</label>
+                            <input type="text" id="add-name" placeholder="Student Full Name" required>
+                        </div>
+                    </div>
+                    
+                    <h4 style="color:#38bdf8; margin: 15px 0 10px 0;">Enter Marks (0 - 100):</h4>
+                    <div class="marks-grid">
+                        <div class="form-group">
+                            <label>English:</label>
+                            <input type="number" id="add-eng" min="0" max="100" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Mathematics:</label>
+                            <input type="number" id="add-math" min="0" max="100" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Computer:</label>
+                            <input type="number" id="add-comp" min="0" max="100" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Physics:</label>
+                            <input type="number" id="add-phy" min="0" max="100" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Pak Studies:</label>
+                            <input type="number" id="add-pak" min="0" max="100" required>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn">Add Student Record</button>
+                </form>
+            </section>
+
+            <!-- 2. View Records -->
+            <section id="view-section" class="card dashboard-section hidden">
+                <h3 class="gradient-title">2. Registered Students Roster</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Roll No.</th>
+                            <th>Name</th>
+                            <th>Percentage</th>
+                            <th>Grade</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-body">
+                        <!-- Dynamic Content -->
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- 3. Search Student -->
+            <section id="search-section" class="card dashboard-section hidden">
+                <h3 class="gradient-title">3. Search Student Record</h3>
+                <div class="search-box">
+                    <input type="text" id="search-roll-input" placeholder="Enter Roll Number...">
+                    <button onclick="handleSearch()" class="btn">Search</button>
+                </div>
+                <div id="search-output"></div>
+            </section>
+
+            <!-- 4. Update Student Marks -->
+            <section id="update-section" class="card dashboard-section hidden">
+                <h3 class="gradient-title">4. Update Student Marks</h3>
+                <div class="search-box">
+                    <input type="text" id="update-roll-input" placeholder="Enter Roll Number to Update...">
+                    <button onclick="loadStudentForUpdate()" class="btn">Load Student</button>
+                </div>
+                
+                <div id="update-form-container" class="hidden">
+                    <h4 id="update-student-heading" style="color:#38bdf8; margin-bottom:15px;"></h4>
+                    <form id="update-marks-form">
+                        <div class="marks-grid">
+                            <div class="form-group">
+                                <label>English:</label>
+                                <input type="number" id="up-eng" min="0" max="100" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Mathematics:</label>
+                                <input type="number" id="up-math" min="0" max="100" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Computer:</label>
+                                <input type="number" id="up-comp" min="0" max="100" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Physics:</label>
+                                <input type="number" id="up-phy" min="0" max="100" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Pak Studies:</label>
+                                <input type="number" id="up-pak" min="0" max="100" required>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn">Save New Marks</button>
+                    </form>
+                </div>
+            </section>
+
+            <!-- 5. Student Result Card -->
+            <section id="result-section" class="card dashboard-section hidden">
+                <h3 class="gradient-title">5. Individual Result Card</h3>
+                <div class="search-box">
+                    <input type="text" id="result-roll-input" placeholder="Enter Roll Number...">
+                    <button onclick="generateResultCard()" class="btn">Generate Result</button>
+                </div>
+                <div id="result-card-display"></div>
+            </section>
+
+            <!-- 6. Class Statistics -->
+            <section id="stats-section" class="card dashboard-section hidden">
+                <h3 class="gradient-title">6. Class Statistics & Analytics</h3>
+                <div id="stats-output"></div>
+            </section>
+
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
