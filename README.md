@@ -1,28 +1,34 @@
-🎓 Student Result Management System
+# 🎓 Student Result Management System
 
 This is a modern, responsive Web Application designed for faculty members to enter student marks, generate detailed result cards, and analyze class-wide performance. It runs natively in any web browser without needing any backend server setup.
 
-🔑 Login Credentials
+---
+
+## 🔑 Login Credentials
 
 Use the following credentials to access the teacher dashboard:
 
-Role               Username                        Password
+| Role | Username | Password |
+| :--- | :--- | :--- |
+| **Admin** | `admin` | `teacher123` |
+| **Faculty** | `ali` | `ali1234` |
 
-Admin               Admin                        teacher123
-Faculty             Ali                           ali1234
+---
 
+## ✨ Features
 
-✨ Features
-➕ Add Student: Register new students using a unique Roll Number, Full Name, and marks for 5 subjects (English, Mathematics, Computer, Physics, Pak Studies).
+* **➕ Add Student:** Register new students using a unique Roll Number, Full Name, and marks for 5 subjects (English, Mathematics, Computer, Physics, Pak Studies).
+* **📋 View Records:** Display a complete student roster showing Percentage, Final Grade (A+, A, B, C, D, F), and Pass/Fail status.
+* **🔍 Search Student:** Instantly find any student by Roll Number with a direct button to jump to their complete Result Card.
+* **✏️ Update Marks:** Select any student and update individual subject scores—totals, percentages, and grades recalculate automatically.
+* **📜 Result Card:** Generate an individual academic transcript displaying subject breakdowns, aggregate totals, and final academic standing.
+* **📊 Class Analytics:** View real-time class statistics, including class average percentage and passed/failed student counts.
+* **🗑️ Delete Record:** Remove student entries directly from the database with a single click.
 
-📋 View Records: Display a complete student roster showing Percentage, Final Grade (A+, A, B, C, D, F), and Pass/Fail status.
+---
 
-🔍 Search Student: Instantly find any student by Roll Number with a direct button to jump to their complete Result Card.
+## 🚀 How to Run
 
-✏️ Update Marks: Select any student and update individual subject scores—totals, percentages, and grades recalculate automatically.
-
-📜 Result Card: Generate an individual academic transcript displaying subject breakdowns, aggregate totals, and final academic standing.
-
-📊 Class Analytics: View real-time class statistics, including class average percentage and passed/failed student counts.
-
-🗑️ Delete Record: Remove student entries directly from the database with a single click.
+1. Open the project folder and double-click the **`index.html`** file to open it in your web browser.
+2. Enter the **Username** and **Password** provided above to log in.
+3. Use the navigation buttons at the top of the dashboard to manage records.
